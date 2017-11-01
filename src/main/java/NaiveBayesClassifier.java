@@ -3,7 +3,6 @@ import org.apache.spark.ml.PipelineModel;
 import org.apache.spark.ml.PipelineStage;
 import org.apache.spark.ml.classification.NaiveBayes;
 import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator;
-import org.apache.spark.ml.feature.VectorAssembler;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 
@@ -13,19 +12,12 @@ public class NaiveBayesClassifier {
 
 
     public NaiveBayesClassifier() {
-        AbsoluteTransformer absoluter = new AbsoluteTransformer(new String[]{"ap1", "ap2", "ap3", "ap4", "ap5"});
-
-
-        VectorAssembler assembler = new VectorAssembler()
-                .setInputCols(new String[]{"ap1", "ap2", "ap3", "ap4", "ap5"})
-                .setOutputCol("features");
-
         // create the trainer and set its parameters
         NaiveBayes nb = new NaiveBayes();
 
 
         this.pipeline = new Pipeline()
-                .setStages(new PipelineStage[] {absoluter, assembler, nb});
+                .setStages(new PipelineStage[] {DataTransformer.getAbsoluter(), DataTransformer.getAssembler(), nb});
     }
 
     public void train(Dataset trainData) {
