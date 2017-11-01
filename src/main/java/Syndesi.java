@@ -32,6 +32,8 @@ public class Syndesi {
                 .option("user", "spark")
                 .option("password", "spark").load();*/
 
+        NaiveBayesClassifier nb = new NaiveBayesClassifier();
+
         StructType schema = new StructType(new StructField[]{
                 new StructField("ap1", DataTypes.IntegerType, false, Metadata.empty()),
                 new StructField("ap2", DataTypes.IntegerType, false, Metadata.empty()),
@@ -40,13 +42,6 @@ public class Syndesi {
                 new StructField("ap5", DataTypes.IntegerType, false, Metadata.empty()),
                 new StructField("label", DataTypes.DoubleType, false, Metadata.empty()),
         });
-
-        AbsoluteTransformer absoluter = new AbsoluteTransformer(new String[]{"ap1", "ap2", "ap3", "ap4", "ap5"});
-
-
-        VectorAssembler assembler = new VectorAssembler()
-                .setInputCols(new String[]{"ap1", "ap2", "ap3", "ap4", "ap5"})
-                .setOutputCol("features");
 
         Dataset<Row> trainData = spark.read()
                 .schema(schema)
@@ -63,25 +58,9 @@ public class Syndesi {
                 .csv("data/testData.txt");
 
 
-        // create the trainer and set its parameters
-        NaiveBayes nb = new NaiveBayes();
+        nb.train(trainData);
 
-
-        Pipeline pipeline = new Pipeline()
-                .setStages(new PipelineStage[] {absoluter, assembler, nb});
-
-        PipelineModel model = pipeline.fit(trainData);
-
-        Dataset<Row> predictions = model.transform(testData);
-        predictions.show();
-
-        // compute accuracy on the test set
-        MulticlassClassificationEvaluator evaluator = new MulticlassClassificationEvaluator()
-                .setLabelCol("label")
-                .setPredictionCol("prediction")
-                .setMetricName("accuracy");
-        double accuracy = evaluator.evaluate(predictions);
-        System.out.println("Test set accuracy = " + accuracy);
+        nb.classify(testData);
 
         spark.stop();
     }
