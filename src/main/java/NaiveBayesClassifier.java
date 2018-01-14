@@ -6,6 +6,9 @@ import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 
+/**
+ * Naive Bayes classifier
+ */
 public class NaiveBayesClassifier {
     private Pipeline pipeline;
     private PipelineModel model;

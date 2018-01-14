@@ -4,7 +4,9 @@ import org.apache.spark.sql.Dataset;
 import static org.apache.spark.sql.functions.abs;
 import org.apache.spark.sql.types.StructType;
 
-
+/**
+ * Transform a raw dataset to one with column names
+ */
 public class AbsoluteTransformer extends Transformer {
     private static final long serialVersionUID = -627462023364910959L;
     private String[] columns;

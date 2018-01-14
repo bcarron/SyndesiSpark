@@ -4,6 +4,9 @@ import org.apache.spark.sql.types.Metadata;
 import org.apache.spark.sql.types.StructField;
 import org.apache.spark.sql.types.StructType;
 
+/**
+ * Perform the Syndesi localization algorithm
+ */
 public class Syndesi {
     public static void main(String[] args) {
         SparkSession spark = SparkSession
@@ -12,12 +15,13 @@ public class Syndesi {
                 .config("spark.master", "local") //spark://ubuntu:7077
                 .getOrCreate();
 
-/*        Dataset<Row> data = spark.read().format("jdbc")
+        // Read last location from database
+        Dataset<Row> data = spark.read().format("jdbc")
                 .option("url", "jdbc:mysql://129.194.71.126/dataset")
                 .option("driver", "com.mysql.jdbc.Driver")
                 .option("dbtable", "measurements")
                 .option("user", "spark")
-                .option("password", "spark").load();*/
+                .option("password", "spark").load();
 
         NaiveBayesClassifier nb = new NaiveBayesClassifier();
 
