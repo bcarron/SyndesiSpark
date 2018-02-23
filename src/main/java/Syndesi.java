@@ -15,12 +15,8 @@ public class Syndesi {
                 .config("spark.master", "spark://129.194.246.176:7077") //spark://ubuntu:7077 spark://129.194.246.176:7077
                 .getOrCreate();
 
-        // Actual DB connection
-/*        Dataset<Row> data = spark.read().format("jdbc")
-=======
         // Read last location from database
         Dataset<Row> data = spark.read().format("jdbc")
->>>>>>> c4df825220c0e6affead3d7875d4c4b02bb471df
                 .option("url", "jdbc:mysql://129.194.71.126/dataset")
                 .option("driver", "com.mysql.jdbc.Driver")
                 .option("dbtable", "measurements")

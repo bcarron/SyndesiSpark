@@ -1,6 +1,7 @@
 import org.apache.spark.ml.Pipeline;
 import org.apache.spark.ml.PipelineModel;
 import org.apache.spark.ml.PipelineStage;
+import org.apache.spark.ml.classification.LinearSVC;
 import org.apache.spark.ml.classification.NaiveBayes;
 
 /**
